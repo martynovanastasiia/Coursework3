@@ -1,0 +1,155 @@
+/* App.css */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  --bg-blue: #eef5f9; --panel-white: #ffffff; --accent-blue: #2a7ade;
+  --metal-grey: #94a3b8; --valve-red: #ef4444; --valve-green: #22c55e;
+}
+
+body { margin: 0; background-color: var(--bg-blue); font-family: 'Poppins', sans-serif; overflow: hidden; }
+
+.app-viewport { width: 100%; height: 100vh; display: flex; flex-direction: column; padding: 10px; }
+
+.glass-header { background: var(--panel-white); padding: 10px; border-radius: 12px; margin-bottom: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+.glass-header h1 { margin: 0; font-size: 22px; color: var(--accent-blue); text-transform: uppercase; font-weight: 700; letter-spacing: 1px;}
+
+.main-layout { display: flex; gap: 20px; flex: 1; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
+
+.visualizer-card {
+  flex: 2 1 500px; min-width: 320px; max-width: 850px;
+  background: var(--panel-white); border-radius: 25px;
+  padding: 15px 30px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.02);
+  display: flex; justify-content: center;
+}
+
+.tanks-grid { display: flex; flex-direction: column; align-items: center; width: 100%; }
+
+.upper-assembly { width: 100%; max-width: 440px; display: flex; flex-direction: column; align-items: center; position: relative;}
+
+.row-upper { display: flex; justify-content: space-between; width: 100%; z-index: 2; }
+
+.tank-wrapper { display: flex; flex-direction: column; align-items: center; position: relative; }
+
+.tank-wrapper.small .tank-glass { width: 150px; height: 180px; }
+.tank-wrapper.large .tank-glass { width: 200px; height: 250px; }
+
+.tank-glass {
+  background: #f8fafc; border: 4px solid #cbd5e1; border-radius: 10px 10px 30px 30px;
+  position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
+}
+
+.substance-name { position: absolute; top: 35%; font-weight: 800; font-size: 18px; color: rgba(0,0,0,0.04); pointer-events: none; z-index: 1;}
+
+.tank-scale { position: absolute; left: 0; top: 0; bottom: 0; width: 10px; z-index: 5;}
+.scale-mark { position: absolute; left: 0; width: 10px; height: 3px; background: rgba(0,0,0,0.15); border-radius: 0 2px 2px 0; transform: translateY(1.5px); }
+
+.liquid-fill { position: absolute; bottom: 0; left: 0; width: 100%; transition: height 0.1s linear; border-radius: 0 0 25px 25px; }
+.liquid-fill.oil { background: linear-gradient(to top, #facc15, #fef08a); }
+.liquid-fill.lye { background: linear-gradient(to top, #94a3b8, #e2e8f0); }
+.liquid-fill.soap { background: linear-gradient(to top, #f97316, #fdba74); }
+
+.vol-indicator { position: absolute; top: 8px; left: 0; width: 100%; text-align: center; font-size: 12px; font-weight: 700; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+
+.boiling { animation: boilPulse 0.8s infinite alternate; }
+@keyframes boilPulse {
+  0% { filter: brightness(1); box-shadow: inset 0 -10px 15px rgba(255, 87, 34, 0.5); }
+  100% { filter: brightness(1.2) saturate(1.3); box-shadow: inset 0 -50px 30px rgba(255, 60, 0, 0.9); }
+}
+
+.mixer-assembly { position: absolute; top: 0; left: 50%; width: 50%; height: 75%; z-index: 4; }
+.mixer-shaft { width: 4px; height: 100%; background: #94a3b8; margin: 0 auto; }
+.mixer-blades { position: absolute; bottom: 10%; left: 0; width: 100%; height: 8px; background: #64748b; border-radius: 2px; animation: mixSpin 1.2s linear infinite; }
+@keyframes mixSpin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+
+.led-sensor { position: absolute; right: 8px; width: 10px; height: 10px; border-radius: 50%; background: rgba(0,0,0,0.05); border: 2px solid white; z-index: 5; transition: 0.1s; }
+.sensor-h { top: 15px; } .sensor-l { bottom: 15px; }
+.led-sensor.active { background: #facc15; box-shadow: 0 0 6px #facc15; }
+
+.valve-assembly { display: flex; flex-direction: column; align-items: center; z-index: 5; }
+.pipe-segment { width: 12px; height: 16px; background: #cbd5e1; transition: background-color 0.1s; z-index: 1;}
+
+.drain-pipe { height: 40px !important; border-radius: 0 0 6px 6px; }
+
+.valve-handle { width: 28px; height: 28px; background: var(--valve-red); border: 3px solid #fff; border-radius: 50%; position: relative; transition: 0.3s; z-index: 2; }
+.valve-handle::after { content: ''; position: absolute; top: 50%; left: 50%; width: 70%; height: 3px; background: white; transform: translate(-50%, -50%); }
+.open .valve-handle { background: var(--valve-green); transform: rotate(90deg); }
+
+.piping-system {
+  position: relative;
+  width: calc(100% - 130px);
+  height: 52px; /* Збільшили висоту центральної труби на 12px */
+  margin: -14px auto 0; /* Підняли горизонтальну трубу вгору під самі крани */
+  z-index: 1;
+  display: flex; justify-content: center;
+}
+.p-horizontal { position: absolute; height: 12px; background: #cbd5e1; top: 0; width: 50%; transition: background-color 0.1s;}
+.p-horizontal.left { left: 0; border-radius: 6px 0 0 6px; }
+.p-horizontal.right { right: 0; border-radius: 0 6px 6px 0; }
+.p-vertical-main { position: absolute; left: calc(50% - 6px); width: 12px; height: 100%; background: #cbd5e1; top: 0; transition: background-color 0.1s;}
+
+.row-lower { margin-top: -2px; display: flex; flex-direction: column; align-items: center;}
+
+.flow-oil { background: #facc15 !important; animation: pipeFlow 0.5s infinite alternate; }
+.flow-lye { background: #94a3b8 !important; animation: pipeFlow 0.5s infinite alternate; }
+.flow-soap { background: #f97316 !important; animation: pipeFlow 0.5s infinite alternate; }
+.flow-mixed { background: linear-gradient(to bottom, #facc15, #f97316) !important; animation: pipeFlow 0.5s infinite alternate; }
+
+@keyframes pipeFlow { 0% { filter: brightness(1); } 100% { filter: brightness(1.2); } }
+
+.side-controls { flex: 1 1 300px; min-width: 280px; max-width: 350px; display: flex; flex-direction: column; gap: 20px; position: sticky; top: 15px; }
+.state-card, .diagnostics-list { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.02); }
+.state-badge { margin-top: 10px; padding: 15px; background: var(--accent-blue); color: white; border-radius: 12px; font-size: 15px; font-weight: 700; text-align: center; }
+
+.diag-row { display: flex; align-items: center; gap: 10px; padding: 10px; font-size: 14px; opacity: 0.4; }
+.diag-row.on { opacity: 1; color: #166534; font-weight: 600; }
+.diag-led { width: 8px; height: 14px; background: #e2e8f0; border-radius: 4px; margin-left: auto; }
+.on .diag-led { background: #22c55e; box-shadow: 0 0 6px #22c55e; }
+
+.action-button { padding: 18px; border: none; border-radius: 18px; background: var(--accent-blue); color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s;}
+.action-button:hover:not(:disabled) { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 8px 20px rgba(42,122,222,0.2); }
+.action-button.active { background: #94a3b8; cursor: wait; box-shadow: none; }
+
+@media (max-width: 768px) {
+  body { overflow-y: auto; }
+  .app-viewport { height: auto; min-height: 100vh; }
+  .main-layout { flex-direction: column; align-items: center; }
+  .visualizer-card { width: 100%; padding: 20px 10px; min-width: auto; }
+  .side-controls { width: 100%; max-width: 100%; position: static; }
+
+  .upper-assembly { max-width: 280px; }
+  .piping-system { width: calc(100% - 90px); height: 42px; margin: -12px auto 0; }
+
+  .tank-wrapper.small .tank-glass { width: 90px; height: 120px; }
+  .tank-wrapper.large .tank-glass { width: 130px; height: 170px; }
+  .substance-name { font-size: 14px; }
+  .valve-handle { width: 24px; height: 24px; border-width: 2px;}
+}
+/* Нові кольори рідин */
+.liquid-fill.choco { background: linear-gradient(to top, #451a03, #78350f); }
+.liquid-fill.energy { background: linear-gradient(to top, #16a34a, #4ade80); }
+
+/* Бокове меню рецептів */
+.recipe-sidebar { flex: 0 1 250px; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 10px; }
+.recipe-sidebar h3 { margin-top: 0; color: var(--accent-blue); text-align: center; font-size: 16px; text-transform: uppercase; }
+.recipe-btn { padding: 15px; border: 2px solid #e2e8f0; border-radius: 12px; background: transparent; cursor: pointer; font-size: 15px; font-weight: 600; text-align: left; transition: 0.2s; display: flex; align-items: center; gap: 10px; color: #475569;}
+.recipe-btn:hover:not(:disabled) { border-color: var(--accent-blue); background: #f8fafc; }
+.recipe-btn.active { border-color: var(--accent-blue); background: var(--accent-blue); color: white; }
+.recipe-btn.active .emoji { background: rgba(255,255,255,0.2); }
+.recipe-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.emoji { font-size: 20px; background: #f1f5f9; padding: 5px 10px; border-radius: 8px; }
+
+/* Кнопки керування */
+.stop-btn { background: var(--valve-red); margin-top: 10px; }
+.stop-btn:hover { box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3) !important; }
+.start-btn { background: var(--valve-green); }
+
+/* Модальне вікно готового продукту */
+.result-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 100; animation: fadeIn 0.3s ease-out; }
+.result-modal { background: white; padding: 40px; border-radius: 25px; text-align: center; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); transform: scale(1); animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.result-modal h2 { color: var(--accent-blue); margin-top: 0; }
+.product-showcase { font-size: 80px; margin: 20px 0; animation: float 2s infinite ease-in-out; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes popUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
