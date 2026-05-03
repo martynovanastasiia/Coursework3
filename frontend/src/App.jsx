@@ -64,7 +64,7 @@ function TankUI({ title, data, maxVol, colorClass, type, hideTopPipe, hideBottom
   )
 }
 
-function ProcessProgress({ stepIndex, stepProgress, processState, recipeId }) {
+function ProcessProgress({ stepIndex, processState, recipeId }) {
   const isActive  = processState !== 'ОЧІКУВАННЯ' && processState !== 'ЗАВЕРШЕНО'
   const isDone    = processState === 'ЗАВЕРШЕНО'
   const labels = getStepLabels(recipeId);
@@ -171,39 +171,58 @@ function App() {
   const [selectedRecipe, setSelectedRecipe] = useState('CHOCOLATE')
   const [showResult, setShowResult] = useState(false)
 
+  // ДОДАНО: Створюємо унікальний ідентифікатор сесії при першому завантаженні
+  const [sessionId] = useState(() => Math.random().toString(36).substring(2, 15))
+
   useEffect(() => {
     let isProcessing = false
     const interval = setInterval(async () => {
       if (isProcessing) return
       isProcessing = true
       try {
-        // ВИПРАВЛЕНО: чисте посилання на /status
-        const res = await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/status')
+        // ДОДАНО: Передаємо headers у запит status
+        const res = await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/status', {
+          headers: { 'X-Session-Id': sessionId }
+        })
         const currentStatus = await res.json()
         setStatus(currentStatus)
 
         if (currentStatus.processState === 'ЗАВЕРШЕНО' && !showResult) setShowResult(true)
         if (currentStatus.processState !== 'ОЧІКУВАННЯ' && currentStatus.processState !== 'ЗАВЕРШЕНО' && !currentStatus.isPaused) {
-          // ВИПРАВЛЕНО: чисте посилання на /tick та прибрано зайву дужку
-          await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/tick', { method: 'POST' })
+          // ДОДАНО: Передаємо headers у запит tick
+          await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/tick', {
+            method: 'POST',
+            headers: { 'X-Session-Id': sessionId }
+          })
         }
       } catch (err) { console.error('Помилка:', err) } finally { isProcessing = false }
     }, 100)
     return () => clearInterval(interval)
-  }, [showResult])
+  }, [showResult, sessionId]) // Додали sessionId у залежності
 
-  // ВИПРАВЛЕНО: усі localhost замінено на Render, відновлено правильні шляхи (/start, /pause, /reset)
   const startSimulator = async () => {
     setShowResult(false);
-    await fetch(`https://chemical-simulator-5x2p.onrender.com/api/simulator/start?recipe=${selectedRecipe}`, { method: 'POST' })
+    // ДОДАНО: Передаємо headers
+    await fetch(`https://chemical-simulator-5x2p.onrender.com/api/simulator/start?recipe=${selectedRecipe}`, {
+      method: 'POST',
+      headers: { 'X-Session-Id': sessionId }
+    })
   }
 
   const togglePause = async () => {
-    await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/pause', { method: 'POST' })
+    // ДОДАНО: Передаємо headers
+    await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/pause', {
+      method: 'POST',
+      headers: { 'X-Session-Id': sessionId }
+    })
   }
 
   const resetSimulation = async () => {
-    await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/reset', { method: 'POST' });
+    // ДОДАНО: Передаємо headers
+    await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/reset', {
+      method: 'POST',
+      headers: { 'X-Session-Id': sessionId }
+    });
     setShowResult(false)
   }
 
@@ -212,7 +231,6 @@ function App() {
   const currentRcp = RECIPES[selectedRecipe]
   const isRunning  = status.processState !== 'ОЧІКУВАННЯ' && status.processState !== 'ЗАВЕРШЕНО'
 
-  // ДИНАМІЧНА ТЕКСТУРА БОБІВ (на 3-му кроці стає однорідною масою)
   const activeLeftColor = (currentRcp.id === 'CHOCOLATE' && status.currentStepIndex >= 3) ? 'choco' : currentRcp.leftColor;
 
   const flowLeft = status.oilTank.outputValveOpen && !status.isPaused ? `flow-${activeLeftColor}` : ''
