@@ -177,22 +177,35 @@ function App() {
       if (isProcessing) return
       isProcessing = true
       try {
-        const res = await fetch('http://localhost:8080/api/simulator/status')
+        // ВИПРАВЛЕНО: чисте посилання на /status
+        const res = await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/status')
         const currentStatus = await res.json()
         setStatus(currentStatus)
 
         if (currentStatus.processState === 'ЗАВЕРШЕНО' && !showResult) setShowResult(true)
         if (currentStatus.processState !== 'ОЧІКУВАННЯ' && currentStatus.processState !== 'ЗАВЕРШЕНО' && !currentStatus.isPaused) {
-          await fetch('http://localhost:8080/api/simulator/tick', { method: 'POST' })
+          // ВИПРАВЛЕНО: чисте посилання на /tick та прибрано зайву дужку
+          await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/tick', { method: 'POST' })
         }
       } catch (err) { console.error('Помилка:', err) } finally { isProcessing = false }
     }, 100)
     return () => clearInterval(interval)
   }, [showResult])
 
-  const startSimulator = async () => { setShowResult(false); await fetch(`http://localhost:8080/api/simulator/start?recipe=${selectedRecipe}`, { method: 'POST' }) }
-  const togglePause = async () => await fetch('http://localhost:8080/api/simulator/pause', { method: 'POST' })
-  const resetSimulation = async () => { await fetch('http://localhost:8080/api/simulator/reset', { method: 'POST' }); setShowResult(false) }
+  // ВИПРАВЛЕНО: усі localhost замінено на Render, відновлено правильні шляхи (/start, /pause, /reset)
+  const startSimulator = async () => {
+    setShowResult(false);
+    await fetch(`https://chemical-simulator-5x2p.onrender.com/api/simulator/start?recipe=${selectedRecipe}`, { method: 'POST' })
+  }
+
+  const togglePause = async () => {
+    await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/pause', { method: 'POST' })
+  }
+
+  const resetSimulation = async () => {
+    await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/reset', { method: 'POST' });
+    setShowResult(false)
+  }
 
   if (!status) return <div className="loading-screen"><div className="loading-spinner" /><p>Ініціалізація системи...</p></div>
 
@@ -244,7 +257,7 @@ function App() {
               </div>
             </div>
 
-            <ProcessProgress stepIndex={status.currentStepIndex} stepProgress={status.stepProgress} recipeId={currentRcp.id} />
+            <ProcessProgress stepIndex={status.currentStepIndex} processState={status.processState} recipeId={currentRcp.id} />
           </div>
 
           <aside className="side-controls">
@@ -255,10 +268,7 @@ function App() {
                     <button className="action-button stop-btn" onClick={resetSimulation}>⏹ ЗАВЕРШИТИ ПРОЦЕС</button></>
               )}
             </div>
-            <EventLog
-                events={status.eventLog || []}
-                isRunning={isRunning}
-            />
+            <EventLog events={status.eventLog || []} isRunning={isRunning} />
           </aside>
         </main>
 
