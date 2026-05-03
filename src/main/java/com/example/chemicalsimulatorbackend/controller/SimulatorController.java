@@ -23,7 +23,6 @@ public class SimulatorController {
     public Map<String, Object> getStatus(@RequestHeader(value = "X-Session-Id", required = false) String sessionId) {
         Map<String, Object> response = new HashMap<>();
 
-        // Отримуємо стан симулятора САМЕ ДЛЯ ЦЬОГО користувача
         SimulatorService.SimulatorState state = simulatorService.getStatus(sessionId);
 
         response.put("processState",    state.getProcessState());

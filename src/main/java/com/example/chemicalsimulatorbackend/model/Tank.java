@@ -12,7 +12,6 @@ public class Tank {
     private double targetTemperature;
     private static final double AMBIENT_TEMP  = 20.0;
 
-    // ЗБІЛЬШЕНО ШВИДКІСТЬ НАГРІВУ (було 0.4)
     private static final double HEAT_RATE     = 1.5;
     private static final double COOL_RATE     = 0.3;
 

@@ -96,7 +96,6 @@ function EventLog({ events, isRunning }) {
   const userScrolledUpRef = useRef(false)
   const [showBtn, setShowBtn] = useState(false)
 
-  // 📌 відслідковуємо скрол
   useEffect(() => {
     const el = logRef.current
     if (!el) return
@@ -113,7 +112,7 @@ function EventLog({ events, isRunning }) {
     return () => el.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // 📌 автоскрол
+  // автоскрол
   useEffect(() => {
     const el = logRef.current
     if (!el) return
@@ -171,7 +170,6 @@ function App() {
   const [selectedRecipe, setSelectedRecipe] = useState('CHOCOLATE')
   const [showResult, setShowResult] = useState(false)
 
-  // ДОДАНО: Створюємо унікальний ідентифікатор сесії при першому завантаженні
   const [sessionId] = useState(() => Math.random().toString(36).substring(2, 15))
 
   useEffect(() => {
@@ -180,7 +178,6 @@ function App() {
       if (isProcessing) return
       isProcessing = true
       try {
-        // ДОДАНО: Передаємо headers у запит status
         const res = await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/status', {
           headers: { 'X-Session-Id': sessionId }
         })
@@ -189,7 +186,6 @@ function App() {
 
         if (currentStatus.processState === 'ЗАВЕРШЕНО' && !showResult) setShowResult(true)
         if (currentStatus.processState !== 'ОЧІКУВАННЯ' && currentStatus.processState !== 'ЗАВЕРШЕНО' && !currentStatus.isPaused) {
-          // ДОДАНО: Передаємо headers у запит tick
           await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/tick', {
             method: 'POST',
             headers: { 'X-Session-Id': sessionId }
@@ -202,7 +198,6 @@ function App() {
 
   const startSimulator = async () => {
     setShowResult(false);
-    // ДОДАНО: Передаємо headers
     await fetch(`https://chemical-simulator-5x2p.onrender.com/api/simulator/start?recipe=${selectedRecipe}`, {
       method: 'POST',
       headers: { 'X-Session-Id': sessionId }
@@ -210,7 +205,7 @@ function App() {
   }
 
   const togglePause = async () => {
-    // ДОДАНО: Передаємо headers
+
     await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/pause', {
       method: 'POST',
       headers: { 'X-Session-Id': sessionId }
@@ -218,7 +213,7 @@ function App() {
   }
 
   const resetSimulation = async () => {
-    // ДОДАНО: Передаємо headers
+
     await fetch('https://chemical-simulator-5x2p.onrender.com/api/simulator/reset', {
       method: 'POST',
       headers: { 'X-Session-Id': sessionId }

@@ -43,9 +43,6 @@ public class SimulatorService {
         getOrCreateState(sessionId).processTick();
     }
 
-    // =====================================================================
-    // Внутрішній клас, який містить стан ТА логіку для ОДНІЄЇ симуляції
-    // =====================================================================
     public static class SimulatorState {
         private final Tank leftTank;
         private final Tank rightTank;
