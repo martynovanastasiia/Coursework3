@@ -1,4 +1,3 @@
-/* App.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -7,114 +6,106 @@
   --bg-blue:      #eef5f9;
   --panel-white:  #ffffff;
   --accent-blue:  #2a7ade;
-  --metal-grey:   #94a3b8;
   --valve-red:    #ef4444;
   --valve-green:  #22c55e;
 }
 
-body { margin: 0; background-color: var(--bg-blue); font-family: 'Poppins', sans-serif; overflow: hidden; }
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-blue);
+  font-family: 'Poppins', sans-serif;
+}
 
-/* ─── Екран завантаження ──────────────────────────────────────────────── */
-.loading-screen {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  height: 100vh; gap: 16px; color: var(--accent-blue);
-}
-.loading-spinner {
-  width: 40px; height: 40px; border: 4px solid #bfdbfe;
-  border-top-color: var(--accent-blue); border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
+
+.loading-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 16px; color: var(--accent-blue); }
+.loading-spinner { width: 40px; height: 40px; border: 4px solid #bfdbfe; border-top-color: var(--accent-blue); border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ─── Загальний лейаут ────────────────────────────────────────────────── */
-.app-viewport { width: 100%; height: 100vh; display: flex; flex-direction: column; padding: 10px; }
-
-.glass-header {
-  background: var(--panel-white); padding: 10px 20px; border-radius: 12px;
-  margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 16px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+.app-viewport {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  overflow: hidden;
 }
+
+.glass-header { background: var(--panel-white); padding: 5px 10px; border-radius: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
 .glass-header h1 { margin: 0; font-size: 20px; color: var(--accent-blue); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
 
-.header-status-badge {
-  font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace;
-  color: #64748b; background: #f1f5f9; padding: 4px 10px; border-radius: 20px;
-  border: 1px solid #e2e8f0; transition: 0.3s;
-}
+.header-status-badge { font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: #64748b; background: #f1f5f9; padding: 4px 10px; border-radius: 20px; border: 1px solid #e2e8f0; transition: 0.3s; }
 .header-status-badge.running { color: #166534; background: #dcfce7; border-color: #bbf7d0; animation: statusPulse 1.5s ease-in-out infinite; }
 @keyframes statusPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.7; } }
 
-.main-layout { display: flex; gap: 16px; flex: 1; align-items: flex-start; justify-content: center; flex-wrap: wrap; overflow: hidden; }
+.main-layout { display: flex; gap: 16px; flex: 1; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
 
-/* ─── Картка візуалізатора ────────────────────────────────────────────── */
-.visualizer-card {
-  flex: 2 1 500px; min-width: 320px; max-width: 850px;
-  background: var(--panel-white); border-radius: 25px; padding: 15px 30px;
-  box-shadow: 0 5px 25px rgba(0,0,0,0.02);
-  display: flex; flex-direction: column; gap: 16px; align-items: center;
-}
+/* Картка візуалізатора тепер може розтягуватися і не обрізати контент */
+.visualizer-card { flex: 2 1 500px; min-width: 320px; max-width: 1000px; background: var(--panel-white); border-radius: 25px; padding: 5px 10px; box-shadow: 0 5px 25px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 16px; align-items: center; }
 
-/* ─── Баки ────────────────────────────────────────────────────────────── */
 .tanks-grid { display: flex; flex-direction: column; align-items: center; width: 100%; }
 .upper-assembly { width: 100%; max-width: 440px; display: flex; flex-direction: column; align-items: center; position: relative; }
 .row-upper { display: flex; justify-content: space-between; width: 100%; z-index: 2; }
-
 .tank-wrapper { display: flex; flex-direction: column; align-items: center; position: relative; }
 .tank-wrapper.small .tank-glass { width: 150px; height: 180px; }
 .tank-wrapper.large .tank-glass { width: 200px; height: 250px; }
-
-.tank-glass {
-  background: #f8fafc; border: 4px solid #cbd5e1; border-radius: 10px 10px 30px 30px;
-  position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
+.tank-glass { background: #f8fafc; border: 4px solid #cbd5e1; border-radius: 10px 10px 30px 30px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.substance-name {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Ідеально центруємо по горизонталі і вертикалі */
+  font-weight: 800;
+  font-size: 14px; /* Зменшили розмір шрифту */
+  color: rgba(0,0,0,0.06);
+  pointer-events: none;
+  z-index: 1;
+  text-align: center;
+  width: 65%; /* Забороняємо тексту розтягуватись до країв (не чіпатиме датчики) */
+  white-space: pre-line; /* Розуміє знак \n і робить красиве перенесення */
+  line-height: 1.1;
 }
-
-.substance-name { position: absolute; top: 35%; font-weight: 800; font-size: 18px; color: rgba(0,0,0,0.04); pointer-events: none; z-index: 1; }
-
 .tank-scale { position: absolute; left: 0; top: 0; bottom: 0; width: 10px; z-index: 5; }
 .scale-mark { position: absolute; left: 0; width: 10px; height: 3px; background: rgba(0,0,0,0.15); border-radius: 0 2px 2px 0; transform: translateY(1.5px); }
 
-.liquid-fill { position: absolute; bottom: 0; left: 0; width: 100%; transition: height 0.1s linear; border-radius: 0 0 25px 25px; }
-.liquid-fill.oil   { background: linear-gradient(to top, #facc15, #fef08a); }
-.liquid-fill.lye   { background: linear-gradient(to top, #94a3b8, #e2e8f0); }
-.liquid-fill.soap  { background: linear-gradient(to top, #f97316, #fdba74); }
-.liquid-fill.choco { background: linear-gradient(to top, #451a03, #78350f); }
-.liquid-fill.pharma{ background: linear-gradient(to top, #1d4ed8, #93c5fd); }
+.liquid-fill { position: absolute; bottom: 0; left: 0; width: 100%; transition: height 0.1s linear, background 0.3s ease; border-radius: 0 0 25px 25px; }
+.liquid-fill.oil    { background: linear-gradient(to top, #facc15, #fef08a); }
+.liquid-fill.lye    { background: linear-gradient(to top, #94a3b8, #e2e8f0); }
+.liquid-fill.soap   { background: linear-gradient(to top, #f97316, #fdba74); }
+.liquid-fill.milk   { background: linear-gradient(to top, #f1f5f9, #ffffff); }
+.liquid-fill.butter { background: linear-gradient(to top, #facc15, #fef08a); }
+.liquid-fill.choco  { background: linear-gradient(to top, #451a03, #78350f); }
+.liquid-fill.beans  { background-color: #5c3a21; background-image: radial-gradient(#3e1f04 35%, transparent 36%), radial-gradient(#3e1f04 35%, transparent 36%); background-size: 20px 20px; background-position: 0 0, 10px 10px; }
 
 .vol-indicator { position: absolute; top: 8px; left: 0; width: 100%; text-align: center; font-size: 12px; font-weight: 700; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.5); z-index: 6; }
-
 .boiling { animation: boilPulse 0.8s infinite alternate; }
-@keyframes boilPulse {
-  0%   { filter: brightness(1);     box-shadow: inset 0 -10px 15px rgba(255,87,34,0.5); }
-  100% { filter: brightness(1.2) saturate(1.3); box-shadow: inset 0 -50px 30px rgba(255,60,0,0.9); }
-}
+@keyframes boilPulse { 0% { filter: brightness(1); box-shadow: inset 0 -10px 15px rgba(255,87,34,0.5); } 100% { filter: brightness(1.2) saturate(1.3); box-shadow: inset 0 -50px 30px rgba(255,60,0,0.9); } }
 
-/* ─── Термометр ────────────────────────────────────────────────────────── */
-.thermometer {
-  position: absolute; right: 6px; bottom: 10px; z-index: 6;
-  display: flex; flex-direction: column; align-items: center; gap: 2px;
-}
-.thermo-tube {
-  width: 8px; height: 55px; background: rgba(255,255,255,0.35);
-  border: 1.5px solid rgba(255,255,255,0.6); border-radius: 4px;
-  overflow: hidden; display: flex; align-items: flex-end;
-}
+/* Термометр відцентрований та піднятий */
+.thermometer { position: absolute; right: 5px; bottom: 35px; z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.thermo-tube { width: 8px; height: 50px; background: rgba(255,255,255,0.35); border: 1.5px solid rgba(255,255,255,0.6); border-radius: 4px; overflow: hidden; display: flex; align-items: flex-end; }
 .thermo-fill { width: 100%; transition: height 0.3s ease; border-radius: 3px; }
 .thermo-fill.cool { background: #60a5fa; }
 .thermo-fill.hot  { background: #f97316; }
 .thermo-label { font-size: 9px; font-weight: 700; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.6); font-family: 'JetBrains Mono', monospace; }
 
-/* ─── Міксер ────────────────────────────────────────────────────────────── */
 .mixer-assembly { position: absolute; top: 0; left: 50%; width: 50%; height: 75%; z-index: 4; }
 .mixer-shaft    { width: 4px; height: 100%; background: #94a3b8; margin: 0 auto; }
 .mixer-blades   { position: absolute; bottom: 10%; left: 0; width: 100%; height: 8px; background: #64748b; border-radius: 2px; animation: mixSpin 1.2s linear infinite; }
 @keyframes mixSpin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
 
-/* ─── Датчики рівня ─────────────────────────────────────────────────────── */
+.grinder-assembly { position: absolute; bottom: 8px; left: 10%; width: 80%; height: 30px; z-index: 4; display: flex; justify-content: space-around; align-items: center; }
+.grinder-gear { width: 28px; height: 28px; background: #64748b; border-radius: 50%; border: 4px dashed #1e293b; animation: grindSpin 0.5s linear infinite; }
+.grinder-gear.reverse { animation: grindSpinRev 0.5s linear infinite; }
+@keyframes grindSpin { 100% { transform: rotate(360deg); } }
+@keyframes grindSpinRev { 100% { transform: rotate(-360deg); } }
+
 .led-sensor { position: absolute; right: 8px; width: 10px; height: 10px; border-radius: 50%; background: rgba(0,0,0,0.05); border: 2px solid white; z-index: 5; transition: 0.1s; }
 .sensor-h { top: 15px; } .sensor-l { bottom: 15px; }
 .led-sensor.active { background: #facc15; box-shadow: 0 0 6px #facc15; }
 
-/* ─── Крани ─────────────────────────────────────────────────────────────── */
 .valve-assembly { display: flex; flex-direction: column; align-items: center; z-index: 5; }
 .pipe-segment { width: 12px; height: 16px; background: #cbd5e1; transition: background-color 0.1s; z-index: 1; }
 .drain-pipe { height: 40px !important; border-radius: 0 0 6px 6px; }
@@ -122,152 +113,170 @@ body { margin: 0; background-color: var(--bg-blue); font-family: 'Poppins', sans
 .valve-handle::after { content: ''; position: absolute; top: 50%; left: 50%; width: 70%; height: 3px; background: white; transform: translate(-50%, -50%); }
 .open .valve-handle { background: var(--valve-green); transform: rotate(90deg); }
 
-/* ─── Трубна система ─────────────────────────────────────────────────────── */
-.piping-system {
-  position: relative; width: calc(100% - 130px); height: 52px;
-  margin: -14px auto 0; z-index: 1; display: flex; justify-content: center;
-}
+.piping-system { position: relative; width: calc(100% - 130px); height: 52px; margin: -14px auto 0; z-index: 1; display: flex; justify-content: center; }
 .p-horizontal { position: absolute; height: 12px; background: #cbd5e1; top: 0; width: 50%; transition: background-color 0.1s; }
 .p-horizontal.left  { left:  0; border-radius: 6px 0 0 6px; }
 .p-horizontal.right { right: 0; border-radius: 0 6px 6px 0; }
 .p-vertical-main { position: absolute; left: calc(50% - 6px); width: 12px; height: 100%; background: #cbd5e1; top: 0; transition: background-color 0.1s; }
 
-.flow-oil   { background: #facc15 !important; animation: pipeFlow 0.5s infinite alternate; }
-.flow-lye   { background: #94a3b8 !important; animation: pipeFlow 0.5s infinite alternate; }
-.flow-soap  { background: #f97316 !important; animation: pipeFlow 0.5s infinite alternate; }
-.flow-mixed { background: linear-gradient(to bottom, #facc15, #f97316) !important; animation: pipeFlow 0.5s infinite alternate; }
+.filter-module { position: absolute; top: 15px; left: calc(50% - 16px); width: 32px; height: 37px; background: #f1f5f9; border: 3px solid #94a3b8; border-radius: 6px; z-index: 2; overflow: hidden; }
+.filter-grid { width: 100%; height: 100%; background-image: linear-gradient(#cbd5e1 1px, transparent 1px), linear-gradient(90deg, #cbd5e1 1px, transparent 1px); background-size: 4px 4px; opacity: 0.5; }
+.filter-module.filtering { background: #ffffff; border-color: var(--accent-blue); box-shadow: 0 0 10px rgba(42,122,222,0.3); }
+.filter-module.filtering::after { content: ''; position: absolute; bottom: -20px; left: 0; width: 100%; height: 20px; background: #ffffff; animation: drip 0.4s infinite; }
+
+.flow-oil    { background: #facc15 !important; animation: pipeFlow 0.5s infinite alternate; }
+.flow-lye    { background: #94a3b8 !important; animation: pipeFlow 0.5s infinite alternate; }
+.flow-soap   { background: #f97316 !important; animation: pipeFlow 0.5s infinite alternate; }
+.flow-milk   { background: #ffffff !important; box-shadow: inset 0 0 4px #cbd5e1; animation: pipeFlow 0.5s infinite alternate; }
+.flow-butter { background: #fde047 !important; animation: pipeFlow 0.5s infinite alternate; }
+.flow-choco  { background: #451a03 !important; animation: pipeFlow 0.5s infinite alternate; }
+.flow-beans  { background: #5c3a21 !important; animation: pipeFlow 0.5s infinite alternate; }
 @keyframes pipeFlow { 0% { filter: brightness(1); } 100% { filter: brightness(1.2); } }
 
 .row-lower { margin-top: -2px; display: flex; flex-direction: column; align-items: center; }
 
-/* ─── Прогрес кроків ─────────────────────────────────────────────────────── */
-.process-progress { width: 100%; padding-top: 8px; }
+/* ─── Виправлена шкала прогресу ─── */
+.process-progress { width: 100%; padding-top: 1px; margin-bottom: 15px; }
+.progress-steps { display: flex; align-items: flex-start; justify-content: center; gap: 0; position: relative; }
+.progress-step { display: flex; flex-direction: column; align-items: center; position: relative; flex: 1; }
 
-.progress-steps { display: flex; align-items: flex-start; justify-content: center; gap: 0; }
-
-.progress-step {
-  display: flex; flex-direction: column; align-items: center; position: relative; flex: 1;
-}
-
-.step-dot {
-  width: 28px; height: 28px; border-radius: 50%;
-  background: #e2e8f0; color: #94a3b8;
-  font-size: 11px; font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  border: 2px solid #e2e8f0; transition: 0.3s; z-index: 2;
-}
+.step-dot { width: 28px; height: 28px; border-radius: 50%; background: #e2e8f0; color: #94a3b8; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid #e2e8f0; transition: 0.3s; z-index: 2; }
 .progress-step.done .step-dot    { background: #22c55e; color: white; border-color: #22c55e; }
 .progress-step.current .step-dot { background: var(--accent-blue); color: white; border-color: var(--accent-blue); animation: stepPulse 1.2s ease-in-out infinite; }
 @keyframes stepPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(42,122,222,0.3); } 50% { box-shadow: 0 0 0 6px rgba(42,122,222,0); } }
 
-.step-label { font-size: 10px; color: #94a3b8; margin-top: 4px; text-align: center; font-weight: 600; }
+.step-label { font-size: 10px; color: #94a3b8; margin-top: 6px; text-align: center; font-weight: 600; line-height: 1.2; word-wrap: break-word; max-width: 60px;}
 .progress-step.done .step-label    { color: #22c55e; }
 .progress-step.current .step-label { color: var(--accent-blue); }
 
-.step-line {
-  position: absolute; top: 14px; left: 50%; width: 100%;
-  height: 2px; background: #e2e8f0; z-index: 1; transition: 0.4s;
-}
+.step-line { position: absolute; top: 14px; left: 50%; width: 100%; height: 2px; background: #e2e8f0; z-index: 1; transition: 0.4s; }
 .step-line.done { background: #22c55e; }
 
-.step-progress-bar {
-  height: 4px; background: #e2e8f0; border-radius: 2px;
-  margin-top: 10px; overflow: hidden;
-}
-.step-progress-fill {
-  height: 100%; background: var(--accent-blue); border-radius: 2px;
-  transition: width 0.15s linear;
-}
+.step-progress-bar { height: 4px; background: #e2e8f0; border-radius: 2px; margin-top: 15px; overflow: hidden; clear: both;}
 
-/* ─── Журнал подій ───────────────────────────────────────────────────────── */
+
+/* ─── Журнал подій ─── */
 .event-log {
-  background: #0f172a; border-radius: 16px; overflow: hidden;
-  font-family: 'JetBrains Mono', monospace; flex: 1;
+
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'JetBrains Mono', monospace;
+  height:100%;
+  position: relative;
+  min-height: 150px;
+  overflow: hidden;
 }
-.log-header {
-  background: #1e293b; padding: 10px 14px; font-size: 11px;
-  font-weight: 600; color: #64748b; text-transform: uppercase;
-  letter-spacing: 1px; display: flex; align-items: center; gap: 8px;
-}
+.log-header { background: #f8fafc; padding: 10px 14px; font-size: 11px; font-weight: 600; color: #475569; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; gap: 8px; }
 .log-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 6px #22c55e; }
-.log-body { padding: 10px; max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
-.log-body::-webkit-scrollbar { width: 4px; }
+
+.log-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+  padding: 5px 12px;
+  min-height: 0;
+  scroll-behavior: auto;
+}
+.scroll-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+
+  background: #2a7ade;
+  color: white;
+  border: none;
+  border-radius: 20px;
+
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+/* Кастомний скролбар для журналу */
+.log-body::-webkit-scrollbar { width: 6px; }
 .log-body::-webkit-scrollbar-track { background: transparent; }
-.log-body::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
-.log-row { font-size: 12px; color: #94a3b8; padding: 3px 0; border-bottom: 1px solid #1e293b; }
-.log-row:last-child { color: #e2e8f0; border-bottom: none; }
-.log-empty { font-size: 12px; color: #334155; padding: 10px 0; text-align: center; }
+.log-body::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
 
-/* ─── Бокові панелі ──────────────────────────────────────────────────────── */
-.side-controls { flex: 1 1 300px; min-width: 280px; max-width: 320px; display: flex; flex-direction: column; gap: 14px; position: sticky; top: 15px; }
+.log-row { font-size: 11px; color: #475569; padding: 6px 0; border-bottom: 1px dashed #f1f5f9; line-height: 1.4; }
+.log-row:last-child { color: #0f172a; font-weight: 600; border-bottom: none; }
+.log-empty { font-size: 12px; color: #94a3b8; padding: 10px 0; text-align: center; }
 
-.state-card { background: white; padding: 16px 20px; border-radius: 16px; box-shadow: 0 5px 20px rgba(0,0,0,0.02); }
+.side-controls {
+  flex: 1 1 300px;
+  min-width: 280px;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 15px;
+  /* ВАЖЛИВО: Обмежуємо висоту панелі, щоб журнал знав свої межі */
+  max-height: calc(100vh - 90px);
+}
+
+.state-card { background: white; padding: 16px 20px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.02); }
 .state-card label { font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
-.state-badge { margin-top: 8px; padding: 12px; background: var(--accent-blue); color: white; border-radius: 10px; font-size: 13px; font-weight: 700; text-align: center; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
-
-/* ─── Панель рецептів ──────────────────────────────────────────────────── */
+.state-badge { margin-top: 8px; padding: 12px; color: white; border-radius: 10px; font-size: 13px; font-weight: 700; text-align: center; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; transition: 0.3s;}
 .recipe-sidebar { flex: 0 1 230px; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 10px; }
 .recipe-sidebar h3 { margin-top: 0; color: var(--accent-blue); text-align: center; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-
-.recipe-btn {
-  padding: 12px; border: 2px solid #e2e8f0; border-radius: 14px; background: transparent;
-  cursor: pointer; text-align: left; transition: 0.2s;
-  display: flex; align-items: center; gap: 10px; color: #475569;
-}
+.recipe-btn { padding: 12px; border: 2px solid #e2e8f0; border-radius: 14px; background: transparent; cursor: pointer; text-align: left; transition: 0.2s; display: flex; align-items: center; gap: 10px; color: #475569; }
 .recipe-btn:hover:not(:disabled) { border-color: var(--accent-blue); background: #f8fafc; }
 .recipe-btn.active { border-color: var(--accent-blue); background: var(--accent-blue); color: white; }
 .recipe-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .emoji { font-size: 22px; min-width: 30px; text-align: center; }
 .recipe-btn-info { display: flex; flex-direction: column; }
 .recipe-btn-info strong { font-size: 13px; }
-.recipe-btn-info small  { font-size: 10px; opacity: 0.7; line-height: 1.3; }
 
-/* ─── Кнопки дій ──────────────────────────────────────────────────────── */
-.action-button {
-  padding: 16px; border: none; border-radius: 16px;
-  background: var(--accent-blue); color: white; font-size: 14px;
-  font-weight: 700; cursor: pointer; transition: 0.2s; font-family: 'Poppins', sans-serif;
-}
+.control-buttons { display: flex; flex-direction: column; gap: 10px; }
+.action-button { padding: 16px; border: none; border-radius: 16px; background: var(--accent-blue); color: white; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.2s; font-family: 'Poppins', sans-serif; }
 .action-button:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 8px 20px rgba(42,122,222,0.25); }
-.action-button.disabled { background: #94a3b8; cursor: wait; box-shadow: none; transform: none; }
 .start-btn { background: var(--valve-green); }
 .start-btn:hover:not(:disabled) { box-shadow: 0 8px 20px rgba(34,197,94,0.3) !important; }
-.stop-btn  { background: var(--valve-red); }
-.stop-btn:hover { box-shadow: 0 8px 20px rgba(239,68,68,0.3) !important; }
+.stop-btn { background: #ef4444; color: white; }
+.stop-btn:hover { box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3) !important; }
+.pause-btn { background: #f59e0b; color: white; }
+.pause-btn:hover { box-shadow: 0 8px 20px rgba(245,158,11,0.3) !important; }
+.resume-btn { background: #10b981; color: white; }
+.resume-btn:hover { box-shadow: 0 8px 20px rgba(16,185,129,0.3) !important; }
 
-/* ─── Модальне вікно ──────────────────────────────────────────────────── */
-.result-modal-overlay {
-  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-  background: rgba(15,23,42,0.6); backdrop-filter: blur(6px);
-  display: flex; justify-content: center; align-items: center; z-index: 100;
-  animation: fadeIn 0.3s ease-out;
-}
-.result-modal {
-  background: white; padding: 40px; border-radius: 25px; text-align: center;
-  max-width: 380px; width: 90%;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-  animation: popUp 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
-}
-.result-modal h2 { color: var(--accent-blue); margin-top: 0; font-size: 22px; }
-.product-showcase { font-size: 80px; margin: 20px 0; animation: float 2s infinite ease-in-out; }
+/* ─── Модальне вікно ─── */
+.result-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.6); backdrop-filter: blur(6px); display: flex; justify-content: center; align-items: center; z-index: 100; animation: fadeIn 0.3s ease-out; }
+.result-modal { background: white; padding: 40px; border-radius: 25px; text-align: center; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.25); animation: popUp 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+.result-modal h2 { color: var(--accent-blue); margin-top: 0; margin-bottom: 25px; font-size: 24px; }
+.product-showcase { font-size: 80px; margin: 20px auto 35px auto; height: 90px; display: flex; justify-content: center; align-items: center; animation: float 2s infinite ease-in-out; }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes popUp  { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-@keyframes float  { 0%,100% { transform: translateY(0);    } 50% { transform: translateY(-15px); } }
+@keyframes float  { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-/* ─── Адаптив ─────────────────────────────────────────────────────────── */
+/* ─── Адаптив для телефонів ─── */
 @media (max-width: 768px) {
-  body { overflow-y: auto; }
+  html, body { overflow: auto; height: auto; }
   .app-viewport { height: auto; min-height: 100vh; overflow: visible; }
   .main-layout  { flex-direction: column; align-items: center; }
-  .visualizer-card { width: 100%; padding: 20px 10px; min-width: auto; }
-  .side-controls, .recipe-sidebar { width: 100%; max-width: 100%; position: static; flex: none; }
+  .visualizer-card { width: 100%; padding: 5px 5px; min-width: auto; max-width: 100%; box-shadow: none;}
+  .side-controls, .recipe-sidebar { width: 100%; max-width: 100%; position: static; flex: none; max-height: none; }
+  .event-log { height: 250px; flex: none; }
+
   .upper-assembly { max-width: 280px; }
   .piping-system  { width: calc(100% - 90px); height: 42px; margin: -12px auto 0; }
+
   .tank-wrapper.small .tank-glass { width: 90px; height: 120px; }
-  .tank-wrapper.large .tank-glass { width: 130px; height: 170px; }
-  .substance-name { font-size: 14px; }
-  .valve-handle   { width: 24px; height: 24px; border-width: 2px; }
-  .thermo-tube    { height: 35px; }
-  .log-body       { max-height: 140px; }
+  .tank-wrapper.large .tank-glass { width: 140px; height: 170px; }
+
+  .substance-name { font-size: 10px; }
+  .valve-handle   { width: 22px; height: 22px; border-width: 2px; }
+
+  .thermometer { right: 2px; transform: scale(0.8); transform-origin: bottom right; bottom: 25px;}
+
+  /* Зменшуємо шкалу для мобільних */
+  .step-label { font-size: 8px; max-width: 45px; margin-top: 4px; }
+  .step-dot { width: 22px; height: 22px; font-size: 9px; }
+  .step-line { top: 11px; }
 }
